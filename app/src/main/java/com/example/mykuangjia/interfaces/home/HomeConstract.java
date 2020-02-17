@@ -9,6 +9,7 @@ public interface HomeConstract {
 
     interface View extends IBaseView {
         void getHomeDataReturn(IndexBean result);
+
     }
 
     interface Persenter extends IBasePersenter<View> {

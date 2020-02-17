@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/shouyeitem"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="首页"/>
+    <item
+        android:id="@+id/zhuantiitem"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="专题"/>
+    <item
+        android:id="@+id/fenleiitem"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="分类"/>
+    <item
+        android:id="@+id/gouwucheitem"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="购物车"/>
+    <item
+        android:id="@+id/wodeitem"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="我的"/>
+</menu>

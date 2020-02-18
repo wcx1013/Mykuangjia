@@ -17,7 +17,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     protected List<T> mDatas; //列表数据
     protected Context mContext;
 
-    public BaseAdapter(List<T> mDatas){
+    public BaseAdapter(List<T> mDatas, Context context){
         this.mDatas = mDatas;
         //设置局部刷新
         setHasStableIds(true);
@@ -54,7 +54,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
      * 刷新数据
      * @param list
      */
-    public void refresh(List<T> list){
+    public void updata(List<T> list){
         this.mDatas.clear();
         this.mDatas.addAll(list);
         notifyDataSetChanged();

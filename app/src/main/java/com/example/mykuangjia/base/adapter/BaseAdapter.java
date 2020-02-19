@@ -94,7 +94,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     protected abstract int getLayoutId();
 
     protected abstract void bindData(BaseViewHolder holder,int positon,T t);
-
+//设置回调接口的监听
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }

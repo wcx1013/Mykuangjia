@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="col_gray_line">#D3D1D1</color>
     <color name="col_white">#ffffff</color>
+    <color name="color_gray_bg">#DDDCDC</color>
+    <color name="color_vertical_line">#B6B5B5</color>
 </resources>

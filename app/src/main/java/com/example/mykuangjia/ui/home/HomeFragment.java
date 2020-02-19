@@ -1,7 +1,9 @@
 package com.example.mykuangjia.ui.home;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.mykuangjia.R;
 import com.example.mykuangjia.base.BaseFragment;
@@ -10,6 +12,7 @@ import com.example.mykuangjia.interfaces.IBasePersenter;
 import com.example.mykuangjia.interfaces.home.HomeConstract;
 import com.example.mykuangjia.models.bean.IndexBean;
 import com.example.mykuangjia.persenter.home.HomePersenter;
+import com.example.mykuangjia.ui.home.activity.BrandActivity;
 
 import java.util.ArrayList;
 
@@ -48,7 +51,12 @@ public class HomeFragment extends BaseFragment<HomeConstract.View,HomeConstract.
         newsAdapter = new NewsAdapter(newList, context);
        recyclerViewNews.setAdapter(newsAdapter);
 
-
+        newsAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Log.i("newsItemClick",String.valueOf(position));
+            }
+        });
 
 
     }
@@ -65,11 +73,20 @@ public class HomeFragment extends BaseFragment<HomeConstract.View,HomeConstract.
 
     @Override
     public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
-        Log.i("newsItemClick",String.valueOf(position));
+        IndexBean.DataBean.BrandListBean bean = list.get(position);
+        ((TextView)holder.getView(R.id.txt_name)).setText(bean.getName()+"新的名字");
+
+        //跳到详情界面
+        Intent intent = new Intent(getContext(), BrandActivity.class);
+        intent.putExtra("brandid",bean.getId());
+        startActivity(intent);
+
     }
 
     @Override
     public void getHomeDataReturn(IndexBean result) {
+        brandAdapter.updata(result.getData().getBrandList());
+        newsAdapter.updata(result.getData().getNewGoodsList());
 
     }
 

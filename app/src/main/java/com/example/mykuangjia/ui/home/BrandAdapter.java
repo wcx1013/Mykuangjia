@@ -1,4 +1,4 @@
-package com.example.mykuangjia.ui.fragment1;
+package com.example.mykuangjia.ui.home;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -16,26 +16,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BrandAdapter extends BaseAdapter {
-    public BrandAdapter(List data, Context context) {
-        super(data, context);
+    public BrandAdapter(List mDatas, Context context) {
+        super(mDatas, context);
     }
 
     @Override
     protected int getLayoutId() {
-        return  R.layout.layout_brand_item;
+        return R.layout.layout_brand_item;
     }
 
     @Override
     protected void bindData(BaseViewHolder holder, int positon, Object o) {
-        IndexBean.DataBean.BrandListBean data = (IndexBean.DataBean.BrandListBean) o;
+        IndexBean.DataBean.BrandListBean data= (IndexBean.DataBean.BrandListBean) o;
         ImageView img_brand = (ImageView) holder.getView(R.id.img_brand);
-        TextView txt_name = (TextView)holder.getView(R.id.txt_name);
-        TextView txt_price = (TextView)holder.getView(R.id.txt_price);
+        TextView txt_name = (TextView) holder.getView(R.id.txt_name);
+        TextView txt_price = (TextView) holder.getView(R.id.txt_price);
         Glide.with(mContext).load(data.getNew_pic_url()).into(img_brand);
         txt_name.setText(data.getName());
         txt_price.setText(Constant.PRICE_MODEL.replace("$",data.getFloor_price()));
-    }
 
+
+    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment<P extends IBasePersenter> extends Fragment implements IBaseView {
+public abstract class BaseFragment<V extends IBaseView, P extends IBasePersenter> extends Fragment implements IBaseView {
 
     protected P persenter;
     protected Context context;

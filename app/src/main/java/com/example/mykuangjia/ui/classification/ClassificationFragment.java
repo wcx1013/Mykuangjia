@@ -1,4 +1,4 @@
-package com.example.mykuangjia.ui.fragment3;
+package com.example.mykuangjia.ui.classification;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
 import q.rorbin.verticaltablayout.widget.TabView;
 
-public class Fenlei extends BaseFragment<HomeConstract.View,HomeConstract.Persenter> implements HomeConstract.View,
+public class ClassificationFragment extends BaseFragment<HomeConstract.View,HomeConstract.Persenter> implements HomeConstract.View,
         VerticalTabLayout.OnTabSelectedListener, BaseAdapter.OnItemClickListener{
 
     VerticalTabLayout verticalTabLayout;
@@ -49,6 +49,11 @@ public class Fenlei extends BaseFragment<HomeConstract.View,HomeConstract.Persen
     @Override
     protected IBasePersenter createPersenter() {
         return null;
+    }
+
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+
     }
 
     @Override

@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.mykuangjia.ui.fragment1.Shouye;
-import com.example.mykuangjia.ui.fragment2.Zhuanti;
-import com.example.mykuangjia.ui.fragment3.Fenlei;
-import com.example.mykuangjia.ui.fragment4.Gouwuche;
-import com.example.mykuangjia.ui.fragment5.Wode;
+import com.example.mykuangjia.ui.home.HomeFragment;
+import com.example.mykuangjia.ui.special.SpecialFragment;
+import com.example.mykuangjia.ui.classification.ClassificationFragment;
+import com.example.mykuangjia.ui.shoppingcart.ShoppingcartFragment;
+import com.example.mykuangjia.ui.own.OwnFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout fragmentBox;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
-    private Shouye shouye;
-    private Zhuanti zhuanti;
-    private Fenlei fenlei;
-    private Gouwuche gouwuche;
-    private Wode wode;
+    private HomeFragment shouye;
+    private SpecialFragment zhuanti;
+    private ClassificationFragment fenlei;
+    private ShoppingcartFragment gouwuche;
+    private OwnFragment wode;
     private FragmentManager fragmentManager;
 
     @Override
@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        shouye = new Shouye();
-        zhuanti = new Zhuanti();
-        fenlei = new Fenlei();
-        gouwuche = new Gouwuche();
-        wode = new Wode();
+        shouye = new HomeFragment();
+        zhuanti = new SpecialFragment();
+        fenlei = new ClassificationFragment();
+        gouwuche = new ShoppingcartFragment();
+        wode = new OwnFragment();
         fragmentManager = getSupportFragmentManager();
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

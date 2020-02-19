@@ -1,9 +1,10 @@
-package com.example.mykuangjia.ui.fragment5;
+package com.example.mykuangjia.ui.shoppingcart;
 
 import com.example.mykuangjia.base.BaseFragment;
+import com.example.mykuangjia.base.adapter.BaseAdapter;
 import com.example.mykuangjia.interfaces.IBasePersenter;
 
-public class Wode extends BaseFragment {
+public class ShoppingcartFragment extends BaseFragment {
     @Override
     protected int getLayout() {
         return 0;
@@ -22,5 +23,10 @@ public class Wode extends BaseFragment {
     @Override
     protected IBasePersenter createPersenter() {
         return null;
+    }
+
+    @Override
+    public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
+
     }
 }

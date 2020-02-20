@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatActivity implements IBaseView {
+public abstract class BaseActivity<V extends IBaseView, P extends IBasePersenter> extends AppCompatActivity implements IBaseView {
     protected  P persenter;
     Unbinder unbinder;
     @Override

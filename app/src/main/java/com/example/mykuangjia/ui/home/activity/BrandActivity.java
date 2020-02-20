@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.mykuangjia.R;
 import com.example.mykuangjia.base.BaseActivity;
+import com.example.mykuangjia.interfaces.IBaseView;
 import com.example.mykuangjia.interfaces.home.BrandConstract;
 import com.example.mykuangjia.models.bean.BrandBean;
 import com.example.mykuangjia.models.bean.BrandGoodsBean;
@@ -18,7 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BrandActivity extends BaseActivity<BrandConstract.Persenter> implements BrandConstract.View {
+public class BrandActivity extends BaseActivity<IBaseView, BrandConstract.Persenter> implements BrandConstract.View {
     private ImageView mImgBack;
     private TextView mTxtTitle;
     private ImageView mImgBg;

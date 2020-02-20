@@ -1,5 +1,6 @@
 package com.example.mykuangjia.ui.classification;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.mykuangjia.models.bean.CatalogItem;
 import com.example.mykuangjia.models.bean.CatalogListBean;
 import com.example.mykuangjia.models.bean.CatalogTabBean;
 import com.example.mykuangjia.persenter.classification.CatalogPersenter;
+import com.example.mykuangjia.ui.classification.activity.CategoryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +126,10 @@ public class ClassificationFragment extends BaseFragment<CatalogContract.View,Ca
 
     @Override
     public void onItemClick(View v, int position) {
-
+        int id = list.get(position).id;
+        Intent intent = new Intent(context, CategoryActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 
 
@@ -136,7 +141,11 @@ public class ClassificationFragment extends BaseFragment<CatalogContract.View,Ca
 
     @Override
     public void onTabReselected(TabView tab, int position) {
-
+            if(categoryList!=null){
+                int id = categoryList.get(position).getId();
+                //请求id对应的列表数据
+                persenter.getCatalogList(id);
+            }
     }
 
     //加载分类数据的导航返回

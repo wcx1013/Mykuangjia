@@ -19,6 +19,6 @@
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/select_color"
-        app:menu="@menu/menu_navigation"/>
+        app:menu="@menu/navigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

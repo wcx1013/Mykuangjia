@@ -7,7 +7,8 @@ import com.example.mykuangjia.models.HttpManager;
 import com.example.mykuangjia.models.bean.IndexBean;
 import com.example.mykuangjia.utils.RxUtils;
 
-public class HomePersenter  extends BasePersenter<HomeConstract.View> implements HomeConstract.Persenter  {
+public class HomePersenter  extends BasePersenter<HomeConstract.View>
+        implements HomeConstract.Persenter  {
     //获取主页的具体实现
     @Override
     public void getHomeData() {

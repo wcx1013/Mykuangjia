@@ -73,5 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        initData();
+    }
+
+    private void initData() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragmentBox,shouye).commit();
+
     }
 }

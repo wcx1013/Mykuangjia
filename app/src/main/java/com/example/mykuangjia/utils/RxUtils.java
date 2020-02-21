@@ -16,7 +16,7 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> FlowableTransformer<T,T> rxScheduler(){
+    public static <T> FlowableTransformer<T, T> rxScheduler(){
         return new FlowableTransformer<T, T>() {
             @Override
             public Publisher<T> apply(Flowable<T> upstream) {

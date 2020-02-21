@@ -8,6 +8,7 @@ import com.example.mykuangjia.models.bean.CatalogTabBean;
 import com.example.mykuangjia.models.bean.CategoryListBean;
 import com.example.mykuangjia.models.bean.CategoryTabBean;
 import com.example.mykuangjia.models.bean.IndexBean;
+import com.example.mykuangjia.models.bean.TopicListBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -15,6 +16,8 @@ import retrofit2.http.Query;
 
 public interface ShopApi {
 
+    @GET("index")//专题页面
+    Flowable<TopicListBean> getTopicList();
     @GET("index")
     Flowable<IndexBean> getIndexData();
     @GET("brand/detail")//品牌直供的详情页数据接口

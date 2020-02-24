@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.home.activity.BrandActivity"/>
+        <activity android:name=".ui.cart.GoodInfoActivity"/>
+        <activity android:name=".ui.TestActivity"/>
+        <activity android:name=".ui.classification.activity.CategoryActivity"/>
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true"/>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import com.example.mykuangjia.models.bean.CatalogTabBean;
 import com.example.mykuangjia.models.bean.CategoryListBean;
 import com.example.mykuangjia.models.bean.CategoryTabBean;
 import com.example.mykuangjia.models.bean.IndexBean;
+import com.example.mykuangjia.models.bean.RelatedBean;
 import com.example.mykuangjia.models.bean.TopicListBean;
 
 import io.reactivex.Flowable;
@@ -37,5 +38,8 @@ public interface ShopApi {
     //获取列表选中的数据
     @GET("catalog/current")
     Flowable<CatalogListBean> getCatalogList(@Query("id") int id);
+    //商品购买页面的数据接口
+    @GET("goods/detail")
+    Flowable<RelatedBean> getRelatedData(@Query("id") int id);
 
 }

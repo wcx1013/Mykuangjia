@@ -1,5 +1,6 @@
 package com.example.mykuangjia.ui.classification.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -7,10 +8,12 @@ import android.widget.TextView;
 
 import com.example.mykuangjia.R;
 import com.example.mykuangjia.base.BaseActivity;
+import com.example.mykuangjia.base.adapter.BaseAdapter;
 import com.example.mykuangjia.interfaces.classification.CategoryConstract;
 import com.example.mykuangjia.models.bean.CategoryListBean;
 import com.example.mykuangjia.models.bean.CategoryTabBean;
 import com.example.mykuangjia.persenter.classification.CategoryPersenter;
+import com.example.mykuangjia.ui.cart.GoodInfoActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -18,8 +21,9 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 public class CategoryActivity extends BaseActivity<CategoryConstract.View, CategoryConstract.Persenter>
-        implements CategoryConstract.View, TabLayout.BaseOnTabSelectedListener {
+        implements CategoryConstract.View, TabLayout.BaseOnTabSelectedListener, BaseAdapter.OnItemClickListener{
     private ImageView mImgBack;
     private TabLayout mTabLayout;
     private TextView mTxtTitle;
@@ -127,5 +131,13 @@ public class CategoryActivity extends BaseActivity<CategoryConstract.View, Categ
         list.clear();
         list.addAll(result.getData().getGoodsList());
         categoryAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(View v, int position) {
+        int id = list.get(position).getId();
+        Intent intent = new Intent(this, GoodInfoActivity.class);
+        intent.putExtra("relatedid",id);
+        startActivity(intent);
     }
 }

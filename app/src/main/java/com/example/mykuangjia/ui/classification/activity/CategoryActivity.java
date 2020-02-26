@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.mykuangjia.R;
 import com.example.mykuangjia.base.BaseActivity;
 import com.example.mykuangjia.base.adapter.BaseAdapter;
+import com.example.mykuangjia.common.RecycleGridDivider;
 import com.example.mykuangjia.interfaces.classification.CategoryConstract;
 import com.example.mykuangjia.models.bean.CategoryListBean;
 import com.example.mykuangjia.models.bean.CategoryTabBean;
@@ -52,7 +53,7 @@ public class CategoryActivity extends BaseActivity<CategoryConstract.View, Categ
         mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 
@@ -66,6 +67,7 @@ public class CategoryActivity extends BaseActivity<CategoryConstract.View, Categ
         };
         mRecyclerview.setLayoutManager(layoutManager);
         mRecyclerview.setAdapter(categoryAdapter);
+        mRecyclerview.addItemDecoration(new RecycleGridDivider());
         mTabLayout.addOnTabSelectedListener(this);
 
 

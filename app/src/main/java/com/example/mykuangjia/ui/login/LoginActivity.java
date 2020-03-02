@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity<IBaseView, LoginConstract.Persen
     @OnClick(R.id.btn_login)
     public void onViewClicked() {
         String nickname = mEditUsername.getText().toString();
-        String password = mEditPassword.getText().toString();
+        String password = mEditPassword  .getText().toString();
 
         persenter.login(nickname,password);
     }

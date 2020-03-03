@@ -10,6 +10,8 @@ public interface ShoppingConstact {
     }
     interface Presenter extends IBasePersenter<View> {
         void getCartIndex();
+        //设置购物车商品数据
+        void setCartGoodsChecked(String pids,int isChecked);
     }
 
 

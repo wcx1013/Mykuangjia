@@ -16,6 +16,7 @@ import com.example.mykuangjia.persenter.cart.ShoppingPresenter;
 import com.example.mykuangjia.ui.login.LoginActivity;
 import com.example.mykuangjia.ui.shoppingcart.adapter.ShoppingAdapter;
 import com.example.mykuangjia.utils.SpUtils;
+import com.example.mykuangjia.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -55,10 +56,11 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
         mRadioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setSelectAll();
+                setSelectAll(isChecked);
                 shoppingAdapter.notifyDataSetChanged();
             }
         });
+        shoppingAdapter.setOnItemClickListener(this);
 
     }
 
@@ -75,13 +77,26 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
     }
 
     @Override
-    protected ShoppingConstact.Presenter createPersenter() {
-        return new ShoppingPresenter();
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        if(requestCode==100){
+            if(persenter!=null)persenter.getCartIndex();
+        }
     }
 
     @Override
+    protected ShoppingConstact.Presenter createPersenter() {
+        return new ShoppingPresenter();
+    }
+    //radio状态变化
+    @Override
     public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
         updateSelectAll();
+        //更新商品的选中状态
+        int[] ids = new int[1];
+        ids[0] = list.get(position).getId();
+        int ischecked = list.get(position).isSelect ? 0 : 1;
+        updateGoodsChecked(ids,ischecked);
     }
 
     @Override
@@ -92,6 +107,27 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
     @Override
     public void getCartIndexReturn(CartBean result) {
         shoppingAdapter.updata(result.getData().getCartList());
+        //判断当前类别的数据是否是全部选中
+        int totalPrice = 0;
+        int nums = 0;
+        boolean isSelectAll = true;
+        for(CartBean.DataBean.CartListBean item:result.getData().getCartList()){
+            if(isSelectAll){
+                if(!item.isSelect){
+                    isSelectAll = false;
+                }
+            }
+            if(item.isSelect){
+                totalPrice += item.getRetail_price()*item.getNumber();
+                nums += item.getNumber();
+            }
+        }
+        if(isSelectAll){
+            mRadioAll.setChecked(true);
+        }
+        String price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+        mTxtTotalPrice.setText(price);
+        mRadioAll.setText("全选("+nums+")");
     }
 
     //mTxtEdit
@@ -117,13 +153,44 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
     }
 
 
+
+    /**
+     * 更新购物车商品数据的选中状态
+     * @param ids
+     * @param isChecked
+     */
+    private void updateGoodsChecked(int[] ids,int isChecked){
+        String pids = StringUtils.splitArray(ids);
+        persenter.setCartGoodsChecked(pids,isChecked);
+    }
+
     /**
      * 设置全部选中
      */
-    private void setSelectAll(){
-        for(CartBean.DataBean.CartListBean item:list){
-            item.isSelect = true;
+    private void setSelectAll(boolean bool){
+        //更新列表中商品的状态
+        int totalPrice = 0;
+        int nums = 0;
+        int[] ids = new int[list.size()];
+        for(int i=0; i<list.size(); i++){
+            list.get(i).isSelect = bool;
+            ids[i] = list.get(i).getId();
+            if(bool){
+                totalPrice += list.get(i).getRetail_price()*list.get(i).getNumber();
+                nums += list.get(i).getNumber();
+            }
         }
+        int isChecked = bool ? 0 : 1;
+        updateGoodsChecked(ids,isChecked);
+        //刷新界面数量和总价
+        if(bool){
+            String  price = context.getResources().getString(R.string.price_news_model).replace("$",String.valueOf(totalPrice));
+            mTxtTotalPrice.setText(price);
+            mRadioAll.setText("全选("+nums+")");
+        }else{
+            mTxtTotalPrice.setText("");
+        }
+
     }
 
     /**

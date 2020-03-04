@@ -3,7 +3,6 @@ package com.example.mykuangjia.ui.shoppingcart;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -12,6 +11,9 @@ import com.example.mykuangjia.base.BaseFragment;
 import com.example.mykuangjia.base.adapter.BaseAdapter;
 import com.example.mykuangjia.interfaces.shoppingcart.ShoppingConstact;
 import com.example.mykuangjia.models.bean.CartBean;
+import com.example.mykuangjia.models.bean.CartGoodsCheckBean;
+import com.example.mykuangjia.models.bean.CartGoodsDeleteBean;
+import com.example.mykuangjia.models.bean.CartGoodsUpdateBean;
 import com.example.mykuangjia.persenter.cart.ShoppingPresenter;
 import com.example.mykuangjia.ui.login.LoginActivity;
 import com.example.mykuangjia.ui.shoppingcart.adapter.ShoppingAdapter;
@@ -53,13 +55,13 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
         list = new ArrayList<>();
         cartList.setLayoutManager(new LinearLayoutManager(context));
         cartList.setAdapter(shoppingAdapter);
-        mRadioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setSelectAll(isChecked);
-                shoppingAdapter.notifyDataSetChanged();
-            }
-        });
+//        mRadioAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                setSelectAll(isChecked);
+//                shoppingAdapter.notifyDataSetChanged();
+//            }
+//        });
         shoppingAdapter.setOnItemClickListener(this);
 
     }
@@ -91,12 +93,23 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
     //radio状态变化
     @Override
     public void itemClick(int position, BaseAdapter.BaseViewHolder holder) {
-        updateSelectAll();
-        //更新商品的选中状态
-        int[] ids = new int[1];
-        ids[0] = list.get(position).getId();
-        int ischecked = list.get(position).isSelect ? 0 : 1;
-        updateGoodsChecked(ids,ischecked);
+        boolean bool = getPageIsEditor();
+        if(!bool){
+            updateSelectAll();
+            //更新商品的选中状态
+            int[] ids = new int[1];
+            ids[0] = list.get(position).getId();
+            int ischecked = list.get(position).isSelect ? 0 : 1;
+            updateGoodsChecked(ids,ischecked);
+        }else{
+            //更新商品的数量
+            String pids = String.valueOf(list.get(position).getProduct_id());
+            String goodsId = String.valueOf(list.get(position).getGoods_id());
+            int number = list.get(position).getNumber();
+            int id = list.get(position).getId();
+            //发送更新商品数量的请求方法
+            persenter.updateCartGoods(pids,goodsId,number,id);
+        }
     }
 
     @Override
@@ -130,12 +143,59 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
         mRadioAll.setText("全选("+nums+")");
     }
 
+    //设置商品选中返回
+    @Override
+    public void setCartGoodsCheckedReturn(CartGoodsCheckBean result) {
+
+    }
+    //更新商品信息返回
+    @Override
+    public void updateCartGoodsReturn(CartGoodsUpdateBean result) {
+        for(CartGoodsUpdateBean.DataBean.CartListBean item:result.getData().getCartList()){
+            CartBean.DataBean.CartListBean bean = getItemDataById(item.getId());
+            if(bean != null) bean.setNumber(item.getNumber());
+        }
+        shoppingAdapter.notifyDataSetChanged();
+    }
+
+    //删除商品返回
+    @Override
+    public void deleteCartGoodsReturn(CartGoodsDeleteBean result) {
+        // int lg = list.size();
+        for(int i=0; i<list.size(); i++){
+            CartBean.DataBean.CartListBean listBean = list.get(i);
+            boolean bool = false; //检验当前的list中第i条数据是否被删除
+            for(CartGoodsDeleteBean.DataBean.CartListBean item:result.getData().getCartList()){
+                if(item.getId() == listBean.getId()){
+                    bool = true;
+                    break;
+                }
+            }
+            //如果不在，删除list中的第i条数据
+            if(!bool){
+                list.remove(i);
+            }
+        }
+        shoppingAdapter.notifyDataSetChanged();
+    }
     //mTxtEdit
     @OnClick({R.id.txt_order,R.id.txt_edit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.radio_all:
+                boolean isChecked = mRadioAll.isChecked();
+                setSelectAll(isChecked);
+                shoppingAdapter.notifyDataSetChanged();
+                break;
             case R.id.txt_order:
-
+                boolean isEditor = getPageIsEditor();
+                if(isEditor){
+                    //当前是编辑状态，执行删除操作
+                    deleteGoods();
+                }else{
+                    //当前是正常状态，执行下单的操作
+                    doOrder();
+                }
                 break;
             case R.id.txt_edit:
                 String str = mTxtEdit.getText().toString();
@@ -162,6 +222,49 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
     private void updateGoodsChecked(int[] ids,int isChecked){
         String pids = StringUtils.splitArray(ids);
         persenter.setCartGoodsChecked(pids,isChecked);
+    }
+
+    /**
+     * 通过商品列表数据id获取对应的商品数据
+     * @param id
+     * @return
+     */
+    private CartBean.DataBean.CartListBean getItemDataById(int id){
+        for(CartBean.DataBean.CartListBean item:list){
+            if(item.getId() == id){
+                return item;
+            }
+        }
+        return null;
+    }
+    /**
+     * 删除商品
+     */
+    private void deleteGoods(){
+        //查找当前需要删除的商品
+        StringBuilder sb = new StringBuilder();
+        for(CartBean.DataBean.CartListBean item:list){
+            if(item.isDelSelect){
+                sb.append(item.getProduct_id());
+                sb.append(",");
+            }
+        }
+        if(sb.length() > 0){
+            //去掉末尾的逗号
+            sb.deleteCharAt(sb.length()-1);
+            String pids = sb.toString();
+            //调用删除商品的接口
+            persenter.deleteCartGoods(pids);
+        }else{
+            showTips("没有选中任何商品");
+        }
+    }
+
+    /**
+     * 下单
+     */
+    private void doOrder(){
+
     }
 
     /**
@@ -234,5 +337,14 @@ public class ShoppingcartFragment extends BaseFragment<ShoppingConstact.View, Sh
         }else{
             mTxtTotalPrice.setText("");
         }
+    }
+
+    /**
+     * 获取当前页面是否是编辑状态
+     * @return
+     */
+    private boolean getPageIsEditor(){
+        String str = mTxtEdit.getText().toString();
+        return str.equals("编辑") ? false : true;
     }
 }

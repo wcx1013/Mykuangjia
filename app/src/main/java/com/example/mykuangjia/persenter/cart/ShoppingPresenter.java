@@ -19,4 +19,19 @@ public class ShoppingPresenter extends BasePersenter<ShoppingConstact.View>
                     }
                 }));
     }
+
+    @Override
+    public void setCartGoodsChecked(String pids, int isChecked) {
+
+    }
+
+    @Override
+    public void updateCartGoods(String pids, String goodsId, int number, int id) {
+
+    }
+
+    @Override
+    public void deleteCartGoods(String pids) {
+
+    }
 }

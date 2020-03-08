@@ -2,6 +2,7 @@ package com.example.mykuangjia.models.api;
 
 
 import com.example.mykuangjia.models.bean.BrandBean;
+import com.example.mykuangjia.models.bean.BrandDetialBean;
 import com.example.mykuangjia.models.bean.BrandGoodsBean;
 import com.example.mykuangjia.models.bean.CartBean;
 import com.example.mykuangjia.models.bean.CatalogListBean;
@@ -9,6 +10,8 @@ import com.example.mykuangjia.models.bean.CatalogTabBean;
 import com.example.mykuangjia.models.bean.CategoryListBean;
 import com.example.mykuangjia.models.bean.CategoryTabBean;
 import com.example.mykuangjia.models.bean.IndexBean;
+import com.example.mykuangjia.models.bean.NewsDetailBean;
+import com.example.mykuangjia.models.bean.OrderInfoBean;
 import com.example.mykuangjia.models.bean.RelatedBean;
 import com.example.mykuangjia.models.bean.TopicListBean;
 import com.example.mykuangjia.models.bean.UserBean;
@@ -33,7 +36,8 @@ public interface ShopApi {
     //获取分类Tab数据的接口goods/category { id: this.data.id }
     @GET("goods/category")
     Flowable<CategoryTabBean> getCategoryTab(@Query("id") int id);
-
+    @GET("goods/hot")
+    Flowable<NewsDetailBean> getNewsDetailBean();
     //商品分类列表数据goods/list{categoryId: that.data.id, page: that.data.page, size: that.data.size}
     @GET("goods/list")
     Flowable<CategoryListBean> getCategoryList(@Query("categoryId") int categoryId, @Query("page") int page, @Query("size") int size);
@@ -55,5 +59,10 @@ public interface ShopApi {
     //验证码
     @GET("auth/verify")
     Flowable<VerifyBean> getVerify();
-
+    //下单前的订单确认  地址ID+优惠券ID
+    @GET("cart/checkout")
+    Flowable<OrderInfoBean> getOrderInfo(@Query("addressId") int addressId, @Query("couponId") int couponId);
+    @GET("/brand/list")
+    Flowable<BrandDetialBean> getBrandDetailBean(@Query("page") int page, @Query("size") int size);
+    //新品，首发，居家等商品购买页的RecyclerView数据
 }

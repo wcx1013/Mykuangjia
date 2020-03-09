@@ -9,4 +9,5 @@
     <color name="color_vertical_line">#B6B5B5</color>
     <color name="color_price">#ADA9A9</color>
     <color name="col_gray_word">#7C7A7A</color>
+    <color name="col_black">#000000</color>
 </resources>

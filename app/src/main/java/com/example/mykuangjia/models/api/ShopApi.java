@@ -1,6 +1,8 @@
 package com.example.mykuangjia.models.api;
 
 
+import com.example.mykuangjia.models.bean.AddressBean;
+import com.example.mykuangjia.models.bean.AdressSaveBean;
 import com.example.mykuangjia.models.bean.BrandBean;
 import com.example.mykuangjia.models.bean.BrandDetialBean;
 import com.example.mykuangjia.models.bean.BrandGoodsBean;
@@ -12,13 +14,18 @@ import com.example.mykuangjia.models.bean.CategoryTabBean;
 import com.example.mykuangjia.models.bean.IndexBean;
 import com.example.mykuangjia.models.bean.NewsDetailBean;
 import com.example.mykuangjia.models.bean.OrderInfoBean;
+import com.example.mykuangjia.models.bean.RegionBean;
 import com.example.mykuangjia.models.bean.RelatedBean;
 import com.example.mykuangjia.models.bean.TopicListBean;
 import com.example.mykuangjia.models.bean.UserBean;
 import com.example.mykuangjia.models.bean.VerifyBean;
 
+import java.util.Map;
+
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -65,4 +72,17 @@ public interface ShopApi {
     @GET("/brand/list")
     Flowable<BrandDetialBean> getBrandDetailBean(@Query("page") int page, @Query("size") int size);
     //新品，首发，居家等商品购买页的RecyclerView数据
+    //地址列表
+    @GET("address/list")
+    Flowable<AddressBean> getAddress();
+
+    //保存地址
+    @POST("address/save")
+    @FormUrlEncoded
+    Flowable<AdressSaveBean> saveAdress(@FieldMap Map adressMap);
+
+    //获取省市区的数据
+    @GET("region/list?parentId=39")
+    Flowable<RegionBean> getRegion(@Query("parentId") int parentId);
+
 }
